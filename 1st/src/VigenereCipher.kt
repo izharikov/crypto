@@ -13,8 +13,8 @@ interface VigenereCipher {
         return encrypt(file.readLines().joinToString("\n"), key);
     }
 
-    fun encryptFile(text: String, key: String): String {
-        return encrypt(File(text), key)
+    fun encryptFile(fileName: String, key: String): String {
+        return encrypt(File(fileName), key)
     }
 }
 

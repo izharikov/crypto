@@ -3,26 +3,29 @@
  */
 
 
-fun countFreq(text: String, keyLength: Int, locale: String = "en") {
+fun countFreq(text: String, keyLength: Int, locale: String = "en"): String {
     val chars = text.toCharArray();
+    val result = mutableListOf<Char>()
     for (i in 0 until keyLength) {
-        val arr = Array<Int>(26, { _ -> 0 })
+        val arr = Array<Int>(length(locale), { _ -> 0 })
         (i..chars.size step keyLength)
                 .asSequence()
                 .filter { it < chars.size }
                 .map { chars[it] }
-                .filter { it.isAlpha() }
+                .filter { it.isAlpha(locale) }
                 .forEach { arr[it - firstChar(locale)]++ }
         val sum = arr.sum()
         val res = arr.map { it.toDouble().div(sum) }
-        println()
+//        println()
         val ch = arr.indices.maxBy { arr[it] }
         if (ch != null) {
-            println("char : $ch ; " +
-                    "E -> ${(ch + firstChar(locale).toInt() * 2 - maxFreq(locale).toInt()).toChar()};" +
-                    " approximated : ${(approximate(res, locale) + firstChar(locale).toInt()).toChar()}")
+//            println("char : $ch ; " +
+//                    "E -> ${(ch + firstChar(locale).toInt() * 2 - maxFreq(locale).toInt()).toChar()};" +
+//                    " approximated : ${(approximate(res, locale) + firstChar(locale).toInt()).toChar()}")
+            result.add((approximate(res, locale) + firstChar(locale).toInt()).toChar())
         }
     }
+    return result.joinToString("")
 }
 
 fun approximate(arr: List<Double>, locale: String): Int {
@@ -56,10 +59,16 @@ fun firstChar(locale: String) = when (locale) {
     else -> 'A'
 }
 
-fun maxFreq(locale:String) = when (locale) {
+fun length(locale: String) = when (locale) {
+    "ru" -> 33
+    else -> 26
+}
+
+fun maxFreq(locale: String) = when (locale) {
     "ru" -> 'О'
     else -> 'E'
 }
+
 val EnFreq = mapOf(
         'A' to 0.08167,
         'B' to 0.01492,

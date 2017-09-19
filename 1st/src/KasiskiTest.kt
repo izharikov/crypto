@@ -4,7 +4,7 @@ import java.lang.Integer.min
  * @author Ihar Zharykau
  */
 
-fun predictLength(text: String, locale:String = "en",minCount: Int = 3, len: Int = 3): Int {
+fun predictLength(text: String, locale:String = "en",minCount: Int = 4, len: Int = 3): Int {
     var index = 0;
     val strLength = text.length
     var indexes = listOf<Int>()
@@ -22,10 +22,8 @@ fun predictLength(text: String, locale:String = "en",minCount: Int = 3, len: Int
         }
         indexes = text.substrIndexes(key);
         index++
-        if ( indexes.size > 1) {
-            println("$indexes : ${gcd(indexes)}")
-        }
-        if ( indexes.size > minCount && gcd(indexes) > 2){
+        if ( indexes.size > minCount - 1 && gcd(indexes) > 2){
+//            println("KEY_: $key, ${indexes.size}")
             break
         }
     }
@@ -47,7 +45,7 @@ fun String.substrIndexes(substr: String): List<Int> {
         for ( i in 1 until list.size){
             resultList.add(list[i] - list[i-1])
         }
-        println("$substr : $resultList")
+//        println("$substr : $resultList")
         return resultList
     }
     return emptyList();
